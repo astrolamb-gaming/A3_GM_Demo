@@ -11,7 +11,6 @@ package com.astrolamb.a3_gm_demo;
  */
 public interface ValueChangeListener {
     
-    public void onFloatChanged(float f);
     public void onIntChanged(int i);
     public void onStringChanged(String s);
     
