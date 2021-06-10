@@ -9,10 +9,15 @@ import com.astrolamb.a3_gm_demo.ValueChangeListener;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.scene.input.KeyCode;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -26,43 +31,63 @@ public class NumberPanel extends JPanel {
     int number;
     JTextField text;
     List<ValueChangeListener> listeners;
+    int max;
+    int min;
     
     public NumberPanel(int number) {
+        this(number, 1000000000, -1000000000);
+    }
+    
+    public NumberPanel(int number, int max, int min) {
+        // Assume they mixed up the order
+        if (max < min) {
+            this.max = min;
+            this.min = max;
+        } else {
+            this.max = max;
+            this.min = min;
+        }
         this.number = number;
         listeners = new ArrayList<>();
-        this.setVisible(true);
+        setVisible(true);
         text = new JTextField();
         text.setPreferredSize(new Dimension(50,30));
         text.setText(getString());
-        text.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                parseText();
-            }
-        });
+//        text.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                parseText();
+//            }
+//        });
         text.addKeyListener(new KeyAdapter() {
             @Override
-            public void keyPressed(KeyEvent e) {
+            public void keyTyped(KeyEvent e) {
+                //parseText();
+                String selected = text.getSelectedText();
+                if (null != selected) {
+                    if (!selected.equals("")) {
+                        text.setText(text.getText().replace(selected, ""));
+                    }
+                }
+                if (e.getKeyCode() == KeyCode.ENTER.ordinal()) {
+                    parseText();
+                }
+            }
+        });
+        text.addFocusListener(new FocusAdapter(){
+            @Override
+            public void focusLost(FocusEvent e) {
                 parseText();
             }
         });
         text.setVisible(true);
-        this.add(text);
+        add(text);
         
         
-        JButton up = new JButton();
-        up.setText("^");
-        up.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                increment(true);
-            }
-        });
-        up.setVisible(true);
-        this.add(up);
+        
         
         JButton down = new JButton();
-        down.setText("v");
+        down.setText("-");
         down.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -70,14 +95,25 @@ public class NumberPanel extends JPanel {
             }
         });
         down.setVisible(true);
-        this.add(down);
+        add(down);
+        
+        JButton up = new JButton();
+        up.setText("+");
+        up.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                increment(true);
+            }
+        });
+        up.setVisible(true);
+        add(up);
     }
     
     private void parseText() {
         String s = text.getText().replaceAll("[^0-9]", "");
         if (s.equals("")) {
-            text.setText("");
             changeValue(0);
+            text.setText("");
             return;
         }
         text.setText(s);
@@ -101,6 +137,12 @@ public class NumberPanel extends JPanel {
     }
     
     private void changeValue(int value) {
+        if (value > max) {
+            value = max;
+        }
+        if (value < min) {
+            value = min;
+        }
         number = value;
         text.setText(getString());
         listeners.forEach(l -> {

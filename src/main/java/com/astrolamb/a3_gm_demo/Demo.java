@@ -9,6 +9,9 @@ import com.astrolamb.a3_gm_demo.Panels.NumberPanel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JSplitPane;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 /**
@@ -22,11 +25,35 @@ public class Demo {
             @Override 
             public void run() {
                 JFrame frame = new JFrame();
-                frame.setVisible(true);
+                
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setPreferredSize(new Dimension(650,700));
                 frame.setLayout(new BorderLayout());
-                frame.add(new NumberPanel(10));
+                
+                
+                
+                //frame.add(new NumberPanel(10, 50, 0));
+                
+                
+                
+                JPanel map = new JPanel();
+                //frame.add(map, BorderLayout.CENTER);
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                JPanel sidebar = new JPanel();
+                //frame.add(sidebar, BorderLayout.WEST);
+                
+                
+                JSplitPane sl = new JSplitPane(SwingConstants.VERTICAL, sidebar, map);
+                frame.add(sl);
+                frame.setVisible(true);
                 frame.pack();
             }
         });
