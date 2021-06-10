@@ -7,8 +7,6 @@ package com.astrolamb.a3_gm_demo.Panels;
 
 import com.astrolamb.a3_gm_demo.ValueChangeListener;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
@@ -30,7 +28,7 @@ public class NamePanel extends JPanel {
     List<ValueChangeListener> listeners;
     String str;
     public NamePanel(String s) {
-        
+        setPreferredSize(new Dimension(150,30));
         listeners = new ArrayList<>();
         setVisible(true);
         text = new JTextField();
@@ -72,13 +70,16 @@ public class NamePanel extends JPanel {
         return str;
     }
 
-    
     private void changeValue(String value) {
         //text.setText(getString());
         str = value;
         listeners.forEach(l -> {
             l.onStringChanged(value);
         });
+    }
+    
+    public void addValueChangeListener(ValueChangeListener l) {
+        listeners.add(l);
     }
     
 }

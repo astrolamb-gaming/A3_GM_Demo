@@ -9,6 +9,7 @@ import com.astrolamb.a3_gm_demo.ObjectProperties.ObjectProperty;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.Icon;
+import javax.swing.JPanel;
 
 /**
  *
@@ -31,5 +32,19 @@ public class MeshedObject extends GameObject {
     public List<ObjectProperty> getProps() {
         return properties;
     }    
+    
+    public void addProperty(ObjectProperty op) {
+        properties.add(op);
+    }
+    
+    public JPanel buildInfoPanel() {
+        JPanel panel = new JPanel();
+        
+        properties.forEach(prop -> {
+            panel.add(prop.buildPanel());
+        });
+        
+        return panel;
+    }
     
 }

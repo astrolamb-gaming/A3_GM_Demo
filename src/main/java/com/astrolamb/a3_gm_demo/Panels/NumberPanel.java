@@ -12,7 +12,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -48,6 +47,7 @@ public class NumberPanel extends JPanel {
             this.min = min;
         }
         this.number = number;
+        setPreferredSize(new Dimension(150,30));
         listeners = new ArrayList<>();
         setVisible(true);
         text = new JTextField();
@@ -148,5 +148,9 @@ public class NumberPanel extends JPanel {
         listeners.forEach(l -> {
             l.onIntChanged(number);
         });
+    }
+    
+    public void addValueChangeListener(ValueChangeListener l) {
+        listeners.add(l);
     }
 }

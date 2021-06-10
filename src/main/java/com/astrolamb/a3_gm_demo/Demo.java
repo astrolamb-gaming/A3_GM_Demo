@@ -5,6 +5,8 @@
  */
 package com.astrolamb.a3_gm_demo;
 
+import com.astrolamb.a3_gm_demo.GameObjects.Ship;
+import com.astrolamb.a3_gm_demo.ObjectProperties.BeamProperty;
 import com.astrolamb.a3_gm_demo.Panels.NumberPanel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -41,6 +43,8 @@ public class Demo {
                 
                 
                 
+                Ship s = new Ship(2);
+                s.addProperty(new BeamProperty());
                 
                 
                 
@@ -49,7 +53,7 @@ public class Demo {
                 
                 JPanel sidebar = new JPanel();
                 //frame.add(sidebar, BorderLayout.WEST);
-                
+                sidebar.add(s.buildInfoPanel());
                 
                 JSplitPane sl = new JSplitPane(SwingConstants.VERTICAL, sidebar, map);
                 frame.add(sl);

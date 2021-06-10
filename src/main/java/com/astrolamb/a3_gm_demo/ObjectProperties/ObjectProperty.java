@@ -5,6 +5,7 @@
  */
 package com.astrolamb.a3_gm_demo.ObjectProperties;
 
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 /**
@@ -13,6 +14,18 @@ import javax.swing.JPanel;
  */
 public abstract class ObjectProperty {
     
+    int energyUsePerSecond = 0;
     public abstract JPanel buildPanel();
+    
+    protected ImageIcon createImageIcon(String path, String description) {
+        ImageIcon imgURL = new ImageIcon(path);
+//        if (imgURL != null) {
+//            return new ImageIcon(imgURL, description);
+//        } else {
+//            System.err.println("Couldn't find file: " + path);
+//            return null;
+//        }
+        return imgURL;
+    }
     
 }
